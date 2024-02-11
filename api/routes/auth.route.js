@@ -18,7 +18,7 @@ router.post('/login', async (req, res) => {
             return res.status(401).json({ message: 'Invalid email' })
         }
 
-        const isPasswordValid = await user.comparePassword(password)
+        const isPasswordValid = await User.findOne({ password })
 
         if (!isPasswordValid) {
             return res.status(401).json({ message: 'Invalid password' })
@@ -40,13 +40,10 @@ router.post('/register', async (req, res) => {
             return res.status(400).json({ message: 'Email is already in use' });
         }
 
-        const salt = await bcrypt.genSalt(10);
-        const hashedPassword = await bcrypt.hash(password, salt);
-
         const newUser = new User({
             name,
             email,
-            password: hashedPassword,
+            password,
             phone,
             address,
             adharNumber,
