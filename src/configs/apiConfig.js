@@ -6,3 +6,8 @@ export const auth = {
     register: 'auth/register',
     logut: 'auth/logout',
 }
+
+export const apis = {
+    users: 'users/list',
+    devices: 'device/list'
+}

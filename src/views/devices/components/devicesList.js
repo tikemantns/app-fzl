@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import {
     Typography, Box,
     Table,
@@ -11,64 +11,31 @@ import {
 } from '@mui/material';
 import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
 import DashboardCard from '../../../components/shared/DashboardCard';
-
-const products = [
-    {
-        id: "1",
-        deviceName: "Iphone 12 Mini",
-        deviceModel: "Iphone 12",
-        deviceColor: "White",
-        storage: "8/64 GB",
-        serialNo: "IMEI2334392938829382233",
-        isBoxIncluded: "No",
-        isDevicehasIssues: "Yes",
-        deviceIssues: "Screen is not working",
-        isdeviceInWarranty: "Yes",
-        warrantyValidity: "6 Months",
-    },
-    {
-        id: "2",
-        deviceName: "Iphone 12 Mini",
-        deviceModel: "Iphone 12",
-        deviceColor: "White",
-        storage: "8/64 GB",
-        serialNo: "IMEI2334392938829382233",
-        isBoxIncluded: "No",
-        isDevicehasIssues: "Yes",
-        deviceIssues: "Screen is not working",
-        isdeviceInWarranty: "Yes",
-        warrantyValidity: "6 Months",
-    },
-    {
-        id: "3",
-        deviceName: "Iphone 12 Mini",
-        deviceModel: "Iphone 12",
-        deviceColor: "White",
-        storage: "8/64 GB",
-        serialNo: "IMEI2334392938829382233",
-        isBoxIncluded: "No",
-        isDevicehasIssues: "Yes",
-        deviceIssues: "Screen is not working",
-        isdeviceInWarranty: "Yes",
-        warrantyValidity: "6 Months",
-    },
-    {
-        id: "4",
-        deviceName: "Iphone 12 Mini",
-        deviceModel: "Iphone 12",
-        deviceColor: "White",
-        storage: "8/64 GB",
-        serialNo: "IMEI2334392938829382233",
-        isBoxIncluded: "No",
-        isDevicehasIssues: "Yes",
-        deviceIssues: "Screen is not working",
-        isdeviceInWarranty: "Yes",
-        warrantyValidity: "6 Months",
-    },
-];
-
+import Swal from 'sweetalert2';
+import axios from 'axios';
+import { apis, backendApp } from 'src/configs/apiConfig';
+import { useSelector } from 'react-redux';
 
 const RequestedDevices = () => {
+    const [products, setProducts] = useState([])
+
+    const userDetails = useSelector((state) => state.persistentSlice.user)
+    
+    const getDevices = async () => {
+        try {
+            const response = await axios.get(`${backendApp.url}${apis.devices}`, {
+                params: {
+                    userId: userDetails._id
+                }
+            });
+            setProducts(response?.data?.devices)
+        } catch (err) {
+            Swal.fire({
+                title: `${err?.response?.data?.message}`,
+                icon: "error"
+            });
+        }
+    };
 
     const handleReject = (productId) => {
         // Handle reject action for the product with productId
@@ -84,6 +51,10 @@ const RequestedDevices = () => {
         // Handle approve action for the product with productId
         console.log(`Approve product with id: ${productId}`);
     };
+
+    useEffect(() => {
+        getDevices()
+    }, [])
 
 
     return (
@@ -101,7 +72,7 @@ const RequestedDevices = () => {
                         <TableRow>
                             <TableCell>
                                 <Typography variant="subtitle2" fontWeight={600}>
-                                    Id
+                                    Sr. No
                                 </Typography>
                             </TableCell>
                             <TableCell align="center">
@@ -137,6 +108,11 @@ const RequestedDevices = () => {
                             <TableCell>
                                 <Typography variant="subtitle2" fontWeight={600}>
                                     Device Color
+                                </Typography>
+                            </TableCell>
+                            <TableCell>
+                                <Typography variant="subtitle2" fontWeight={600}>
+                                    Device Price
                                 </Typography>
                             </TableCell>
                             <TableCell align="center">
@@ -184,7 +160,7 @@ const RequestedDevices = () => {
                         </TableRow>
                     </TableHead>
                     <TableBody>
-                        {products.map((product) => (
+                        {products?.map((product, index) => (
                             <TableRow key={product.deviceName}>
                                 <TableCell>
                                     <Typography
@@ -193,7 +169,7 @@ const RequestedDevices = () => {
                                             fontWeight: "500",
                                         }}
                                     >
-                                        {product.id}
+                                        {index + 1}
                                     </Typography>
                                 </TableCell>
 
@@ -233,28 +209,26 @@ const RequestedDevices = () => {
                                     >
                                         <Box>
                                             <Typography variant="subtitle2" fontWeight={600}>
-                                                {product.deviceName}
-                                            </Typography>
-                                            <Typography
-                                                color="textSecondary"
-                                                sx={{
-                                                    fontSize: "13px",
-                                                }}
-                                            >
-                                                {product.post}
+                                                {product.selectedDevice}
                                             </Typography>
                                         </Box>
                                     </Box>
                                 </TableCell>
                                 <TableCell>
                                     <Typography color="textSecondary" variant="subtitle2" fontWeight={400}>
-                                        {product.deviceModel}
+                                        {product.selectedModel}
                                     </Typography>
                                 </TableCell>
 
                                 <TableCell>
                                     <Typography color="textSecondary" variant="subtitle2" fontWeight={400}>
-                                        {product.deviceColor}
+                                        {product?.deviceColor}
+                                    </Typography>
+                                </TableCell>
+
+                                <TableCell>
+                                    <Typography color="textSecondary" variant="subtitle2" fontWeight={400}>
+                                        {product.devicePrice}
                                     </Typography>
                                 </TableCell>
 
@@ -266,28 +240,28 @@ const RequestedDevices = () => {
 
                                 <TableCell>
                                     <Typography color="textSecondary" variant="subtitle2" fontWeight={400}>
-                                        {product.serialNo}
+                                        {product.serialOrImei}
                                     </Typography>
                                 </TableCell>
                                 <TableCell>
                                     <Typography color="textSecondary" variant="subtitle2" fontWeight={400}>
-                                        {product.isBoxIncluded}
+                                        {product.deviceBoxIncluded ? 'Yes':'No'}
                                     </Typography>
                                 </TableCell>
                                 <TableCell>
                                     <Typography color="textSecondary" variant="subtitle2" fontWeight={400}>
-                                        {product.isDevicehasIssues}
+                                        {product.deviceHasIssue ? 'Yes':'No'}
                                     </Typography>
                                 </TableCell>
                                 <TableCell>
                                     <Typography color="textSecondary" variant="subtitle2" fontWeight={400}>
-                                        {product.deviceIssues}
+                                        {product.issueDescription}
                                     </Typography>
                                 </TableCell>
 
                                 <TableCell>
                                     <Typography color="textSecondary" variant="subtitle2" fontWeight={400}>
-                                        {product.isdeviceInWarranty}
+                                        {product.isInWarranty}
                                     </Typography>
                                 </TableCell>
 
