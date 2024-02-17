@@ -90,8 +90,8 @@ const RequestedDevices = () => {
     const [products, setProducts] = useState([])
     const [page, setPage] = useState(0)
     const [total, setTotal] = useState(0)
-    const [limit, setLimit] = useState(10)
-    const [rowsPerPage, setRowsPerPage] = React.useState(10);
+    const [limit, setLimit] = useState(50)
+    const [rowsPerPage, setRowsPerPage] = React.useState(50);
 
 
     const userDetails = useSelector((state) => state.persistentSlice.user)
