@@ -190,17 +190,17 @@ const RequestedDevices = () => {
                                 </TableCell>
 
                                 <TableCell align="center">
-                                    <Button variant="outlined" color='error' onClick={() => handleReject(product.id)}>
+                                    <Button disabled={!(product.status === 'submitted')} variant="outlined" color='error' onClick={() => handleReject(product.id)}>
                                         Reject
                                     </Button>
                                 </TableCell>
                                 <TableCell align="center">
-                                    <Button variant="outlined" color='warning' onClick={() => handleHold(product.id)}>
+                                    <Button disabled={!(product.status === 'submitted')} variant="outlined" color='warning' onClick={() => handleHold(product.id)}>
                                         Hold
                                     </Button>
                                 </TableCell>
                                 <TableCell align="center">
-                                    <Button variant="outlined" color='success' onClick={() => handleApprove(product.id)}>
+                                    <Button disabled={!(product.status === 'submitted')} variant="outlined" color='success' onClick={() => handleApprove(product.id)}>
                                         Approve
                                     </Button>
                                 </TableCell>
