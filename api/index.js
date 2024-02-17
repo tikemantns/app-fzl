@@ -5,6 +5,7 @@ const app = express();
 
 const authRoutes = require('./routes/auth.route');
 const deviceRoutes = require('./routes/devices.route');
+const userRoutes = require('./routes/user.route')
 
 const connectToDatabase = require('../api/config/db.config');
 
@@ -20,7 +21,8 @@ app.use(bodyParser.json());
 app.use(cors());
 
 app.use('/api/v1/auth', authRoutes);
-app.use('/api/device', deviceRoutes);
+app.use('/api/v1/device', deviceRoutes);
+app.use('/api/v1/users', userRoutes);
 
 app.listen(port, async () => {
   console.log(`Server is listening at http://localhost:${port}`);

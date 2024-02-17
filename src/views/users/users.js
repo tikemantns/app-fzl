@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import {
     Typography, Box,
     Table,
@@ -10,112 +10,24 @@ import {
     Button
 } from '@mui/material';
 import DashboardCard from '../../components/shared/DashboardCard';
-
-const users = [
-    {
-        id: "1",
-        name: "John Doe",
-        phone: "1234567890",
-        email: "john.doe@example.com",
-        isAdmin: "Yes",
-        address: "New York, NY",
-        addharNo: "1234567890123456",
-        alternatePhone: "9876543210",
-    },
-    {
-        id: "2",
-        name: "Jane Smith",
-        phone: "9876543210",
-        email: "jane.smith@example.com",
-        isAdmin: "No",
-        address: "Los Angeles, CA",
-        addharNo: "9876543210123456",
-        alternatePhone: "1234567890",
-    },
-    {
-        id: "3",
-        name: "Alice Johnson",
-        phone: "5555555555",
-        email: "alice.johnson@example.com",
-        isAdmin: "Yes",
-        address: "Chicago, IL",
-        addharNo: "1111222233334444",
-        alternatePhone: "9999999999",
-    },
-    {
-        id: "4",
-        name: "Bob Williams",
-        phone: "1111111111",
-        email: "bob.williams@example.com",
-        isAdmin: "No",
-        address: "San Francisco, CA",
-        addharNo: "4444333322221111",
-        alternatePhone: "8888888888",
-    },
-    {
-        id: "5",
-        name: "Eva Davis",
-        phone: "9999999999",
-        email: "eva.davis@example.com",
-        isAdmin: "Yes",
-        address: "Miami, FL",
-        addharNo: "5555666677778888",
-        alternatePhone: "2222222222",
-    },
-    {
-        id: "6",
-        name: "Michael Brown",
-        phone: "4444444444",
-        email: "michael.brown@example.com",
-        isAdmin: "No",
-        address: "Seattle, WA",
-        addharNo: "7777666655554444",
-        alternatePhone: "3333333333",
-    },
-    {
-        id: "7",
-        name: "Olivia Miller",
-        phone: "2222222222",
-        email: "olivia.miller@example.com",
-        isAdmin: "Yes",
-        address: "Dallas, TX",
-        addharNo: "8888777766665555",
-        alternatePhone: "6666666666",
-    },
-    {
-        id: "8",
-        name: "David Wilson",
-        phone: "6666666666",
-        email: "david.wilson@example.com",
-        isAdmin: "No",
-        address: "Denver, CO",
-        addharNo: "2222111133334444",
-        alternatePhone: "5555555555",
-    },
-    {
-        id: "9",
-        name: "Sophia Taylor",
-        phone: "3333333333",
-        email: "sophia.taylor@example.com",
-        isAdmin: "Yes",
-        address: "Atlanta, GA",
-        addharNo: "9999888877776666",
-        alternatePhone: "4444444444",
-    },
-    {
-        id: "10",
-        name: "William Anderson",
-        phone: "8888888888",
-        email: "william.anderson@example.com",
-        isAdmin: "No",
-        address: "Houston, TX",
-        addharNo: "4444555566667777",
-        alternatePhone: "1111111111",
-    },
-];
-
+import { apis, auth, backendApp } from 'src/configs/apiConfig';
+import axios from 'axios';
+import Swal from 'sweetalert2';
 
 const Users = () => {
+    const [users, setUsers] = useState([])
+
+    const getUsers = async () => {
+        try {
+            const response = await axios.get(`${backendApp.url}${apis.users}`)
+            setUsers(response?.data?.users)
+        } catch (err) {
+            Swal.fire({
+                title: `${err?.response?.data?.message}`,
+                icon: "error"
+            });
+        }
+    };
 
     const handleEdit = (userId) => {
         // Handle edit action for the user with userId
@@ -127,6 +39,9 @@ const Users = () => {
         console.log(`Delete user with id: ${userId}`);
     };
 
+    useEffect( () => {
+        getUsers()
+    }, [])
 
     return (
 
@@ -143,7 +58,7 @@ const Users = () => {
                         <TableRow>
                             <TableCell>
                                 <Typography variant="subtitle2" fontWeight={600}>
-                                    Id
+                                    Sr. No
                                 </Typography>
                             </TableCell>
                             <TableCell>
@@ -189,7 +104,7 @@ const Users = () => {
                         </TableRow>
                     </TableHead>
                     <TableBody>
-                        {users.map((user) => (
+                        {users?.map((user, index) => (
                             <TableRow key={user.deviceName}>
                                 <TableCell>
                                     <Typography
@@ -198,7 +113,7 @@ const Users = () => {
                                             fontWeight: "500",
                                         }}
                                     >
-                                        {user.id}
+                                        {index + 1}
                                     </Typography>
                                 </TableCell>
                                 <TableCell>
@@ -211,14 +126,6 @@ const Users = () => {
                                         <Box>
                                             <Typography variant="subtitle2" fontWeight={600}>
                                                 {user.name}
-                                            </Typography>
-                                            <Typography
-                                                color="textSecondary"
-                                                sx={{
-                                                    fontSize: "13px",
-                                                }}
-                                            >
-                                                {user.post}
                                             </Typography>
                                         </Box>
                                     </Box>
@@ -237,7 +144,7 @@ const Users = () => {
 
                                 <TableCell>
                                     <Typography color="textSecondary" variant="subtitle2" fontWeight={400}>
-                                        {user.isAdmin}
+                                        {user.isAdmin ? 'Yes' : 'No'}
                                     </Typography>
                                 </TableCell>
 
@@ -248,12 +155,12 @@ const Users = () => {
                                 </TableCell>
                                 <TableCell>
                                     <Typography color="textSecondary" variant="subtitle2" fontWeight={400}>
-                                        {user.addharNo}
+                                        {user.adharNumber}
                                     </Typography>
                                 </TableCell>
                                 <TableCell>
                                     <Typography color="textSecondary" variant="subtitle2" fontWeight={400}>
-                                        {user.alternatePhone}
+                                        {user.alternateContact}
                                     </Typography>
                                 </TableCell>
                                 <TableCell align="right">
