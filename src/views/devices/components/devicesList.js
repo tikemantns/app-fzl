@@ -7,19 +7,92 @@ import {
     TableHead,
     TableRow,
     Chip,
-    Button
+    Button,
+    Stack,
+    TablePagination,
+    TableFooter,
+    IconButton
 } from '@mui/material';
+import Pagination from '@mui/material/Pagination';
+import PaginationItem from '@mui/material/PaginationItem';
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
 import DashboardCard from '../../../components/shared/DashboardCard';
 import Swal from 'sweetalert2';
 import axios from 'axios';
 import { apis, backendApp } from 'src/configs/apiConfig';
 import { useSelector } from 'react-redux';
+import { useTheme } from '@emotion/react';
+import LastPageIcon from '@mui/icons-material/LastPage';
+import FirstPageIcon from '@mui/icons-material/FirstPage';
+import KeyboardArrowLeft from '@mui/icons-material/KeyboardArrowLeft';
+import KeyboardArrowRight from '@mui/icons-material/KeyboardArrowRight';
+
+
+function TablePaginationActions(props) {
+    const theme = useTheme();
+    const { count, page, rowsPerPage, onPageChange } = props;
+
+    const handleFirstPageButtonClick = (
+        event,
+    ) => {
+        onPageChange(event, 0);
+    };
+
+    const handleBackButtonClick = (event) => {
+        onPageChange(event, page - 1);
+    };
+
+    const handleNextButtonClick = (event) => {
+        onPageChange(event, page + 1);
+    };
+
+    const handleLastPageButtonClick = (event) => {
+        onPageChange(event, Math.max(0, Math.ceil(count / rowsPerPage) - 1));
+    };
+
+    return (
+        <Box sx={{ flexShrink: 0, ml: 2.5 }}>
+            <IconButton
+                onClick={handleFirstPageButtonClick}
+                disabled={page === 0}
+                aria-label="first page"
+            >
+                {theme.direction === 'rtl' ? <LastPageIcon /> : <FirstPageIcon />}
+            </IconButton>
+            <IconButton
+                onClick={handleBackButtonClick}
+                disabled={page === 0}
+                aria-label="previous page"
+            >
+                {theme.direction === 'rtl' ? <KeyboardArrowRight /> : <KeyboardArrowLeft />}
+            </IconButton>
+            <IconButton
+                onClick={handleNextButtonClick}
+                disabled={page >= Math.ceil(count / rowsPerPage) - 1}
+                aria-label="next page"
+            >
+                {theme.direction === 'rtl' ? <KeyboardArrowLeft /> : <KeyboardArrowRight />}
+            </IconButton>
+            <IconButton
+                onClick={handleLastPageButtonClick}
+                disabled={page >= Math.ceil(count / rowsPerPage) - 1}
+                aria-label="last page"
+            >
+                {theme.direction === 'rtl' ? <FirstPageIcon /> : <LastPageIcon />}
+            </IconButton>
+        </Box>
+    );
+}
 
 const RequestedDevices = () => {
     const [products, setProducts] = useState([])
-    const [page, setPage] = useState(1)
-    const [limit, setLimit] = useState(20)
+    const [page, setPage] = useState(0)
+    const [total, setTotal] = useState(0)
+    const [limit, setLimit] = useState(10)
+    const [rowsPerPage, setRowsPerPage] = React.useState(10);
+
 
     const userDetails = useSelector((state) => state.persistentSlice.user)
 
@@ -32,6 +105,7 @@ const RequestedDevices = () => {
                     userId: userDetails._id
                 }
             });
+            setTotal(response?.data?.total)
             setProducts(response?.data?.devices)
         } catch (err) {
             Swal.fire({
@@ -56,9 +130,13 @@ const RequestedDevices = () => {
         console.log(`Approve product with id: ${productId}`);
     };
 
+    const handleChangePage = (event, newPage) => {
+        setPage(newPage)
+    }
+
     useEffect(() => {
         getDevices()
-    }, [])
+    }, [page])
 
 
     return (
@@ -173,7 +251,7 @@ const RequestedDevices = () => {
                                             fontWeight: "500",
                                         }}
                                     >
-                                        {index + 1}
+                                        {(page) * limit + index + 1}
                                     </Typography>
                                 </TableCell>
 
@@ -278,12 +356,27 @@ const RequestedDevices = () => {
                             </TableRow>
                         ))}
                     </TableBody>
+                    <TableFooter>
+                        <TableRow>
+                            <TablePagination
+                                rowsPerPageOptions={[5, 10, 25, { label: 'All', value: -1 }]}
+                                rowsPerPage={rowsPerPage}
+                                colSpan={3}
+                                count={total}
+                                page={page}
+                                onPageChange={handleChangePage}
+                                ActionsComponent={TablePaginationActions}
+                            />
+                        </TableRow>
+                    </TableFooter>
                 </Table>
+
                 {products?.length === 0 && (
                     <Typography sx={{ textAlign: 'center', fontWeight: 'bold', color: 'brown' }}>
                         No Records Found
                     </Typography>
                 )}
+
             </Box>
         </DashboardCard>
     );
