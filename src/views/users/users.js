@@ -13,9 +13,12 @@ import DashboardCard from '../../components/shared/DashboardCard';
 import { apis, auth, backendApp } from 'src/configs/apiConfig';
 import axios from 'axios';
 import Swal from 'sweetalert2';
+import { useSelector } from 'react-redux';
 
 const Users = () => {
     const [users, setUsers] = useState([])
+
+    const loggedInUser = useSelector( (state) => state.persistentSlice.user) 
 
     const getUsers = async () => {
         try {
@@ -29,17 +32,43 @@ const Users = () => {
         }
     };
 
-    const handleEdit = (userId) => {
-        // Handle edit action for the user with userId
-        console.log(`Edit user with id: ${userId}`);
+    const deleteUser = async (userId) => {
+        try {
+            Swal.fire({
+                title: "Are you sure?",
+                text: "You won't be able to revert this!",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#3085d6",
+                cancelButtonColor: "#d33",
+                confirmButtonText: `Yes, Delete it!`
+            }).then(async (result) => {
+                if (result.isConfirmed) {
+                    const response = await axios.delete(`${backendApp.url}${apis.deleteUser}`, {
+                        data: {
+                            userId: userId
+                        }
+                    });
+                    getUsers()
+                    if (response) {
+                        Swal.fire({
+                            title: "Deleted!",
+                            text: `${response.data.message}`,
+                            icon: "success"
+                        });
+                    }
+                }
+            });
+        } catch (err) {
+            Swal.fire({
+                title: 'Error',
+                text: `${err?.response?.data?.message}`,
+                icon: "error"
+            });
+        }
     };
 
-    const handleDelete = (userId) => {
-        // Handle delete action for the user with userId
-        console.log(`Delete user with id: ${userId}`);
-    };
-
-    useEffect( () => {
+    useEffect(() => {
         getUsers()
     }, [])
 
@@ -164,12 +193,11 @@ const Users = () => {
                                     </Typography>
                                 </TableCell>
                                 <TableCell align="right">
-                                    <Button variant="outlined" onClick={() => handleEdit(user.id)}>
-                                        Edit
-                                    </Button>
-                                    <Button variant="outlined" onClick={() => handleDelete(user.id)}>
-                                        Delete
-                                    </Button>
+                                    {(loggedInUser.isAdmin && loggedInUser._id !== user._id) && (
+                                        <Button variant="outlined" color='error' onClick={() => deleteUser(user._id)}>
+                                            Delete
+                                        </Button>
+                                    )}
                                 </TableCell>
                             </TableRow>
                         ))}

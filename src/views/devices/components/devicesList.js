@@ -88,10 +88,10 @@ function TablePaginationActions(props) {
 
 const RequestedDevices = () => {
     const [products, setProducts] = useState([])
-    const [page, setPage] = useState(0)
+    const [page, setPage] = React.useState(1);
+    const [rowsPerPage, setRowsPerPage] = React.useState(10);
     const [total, setTotal] = useState(0)
-    const [limit, setLimit] = useState(50)
-    const [rowsPerPage, setRowsPerPage] = React.useState(50);
+    const [limit, setLimit] = useState(10)
 
 
     const userDetails = useSelector((state) => state.persistentSlice.user)
@@ -115,23 +115,43 @@ const RequestedDevices = () => {
         }
     };
 
-    const handleReject = (productId) => {
-        // Handle reject action for the product with productId
-        console.log(`Reject product with id: ${productId}`);
-    };
-
-    const handleHold = (productId) => {
-        // Handle hold action for the product with productId
-        console.log(`Hold product with id: ${productId}`);
-    };
-
-    const handleApprove = (productId) => {
-        // Handle approve action for the product with productId
-        console.log(`Approve product with id: ${productId}`);
+    const updateStatus = async (productId, statusType) => {
+        try {
+            Swal.fire({
+                title: "Are you sure?",
+                text: "You won't be able to revert this!",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#3085d6",
+                cancelButtonColor: "#d33",
+                confirmButtonText: `Yes, ${statusType} it!`
+            }).then(async (result) => {
+                if(result.isConfirmed) {
+                    const response = await axios.patch(`${backendApp.url}${apis.updateStatus}`, {
+                        deviceId: productId,
+                        status: statusType
+                    });
+                    getDevices()
+                    if (response) {
+                        Swal.fire({
+                            title: "Updated!",
+                            text: `${response.data.message}`,
+                            icon: "success"
+                        });
+                    }
+                } 
+            });
+        } catch (err) {
+            Swal.fire({
+                title: 'Error',
+                text: `${err?.response?.data?.message}`,
+                icon: "error"
+            });
+        }
     };
 
     const handleChangePage = (event, newPage) => {
-        setPage(newPage)
+        setPage(newPage + 1)
     }
 
     useEffect(() => {
@@ -159,22 +179,7 @@ const RequestedDevices = () => {
                             </TableCell>
                             <TableCell align="center">
                                 <Typography variant="subtitle2" fontWeight={600}>
-                                    View
-                                </Typography>
-                            </TableCell>
-                            <TableCell align="center">
-                                <Typography variant="subtitle2" fontWeight={600}>
-                                    Reject
-                                </Typography>
-                            </TableCell>
-                            <TableCell align="center">
-                                <Typography variant="subtitle2" fontWeight={600}>
-                                    Hold
-                                </Typography>
-                            </TableCell>
-                            <TableCell align="center">
-                                <Typography variant="subtitle2" fontWeight={600}>
-                                    Approve
+                                    Status
                                 </Typography>
                             </TableCell>
                             <TableCell>
@@ -251,36 +256,25 @@ const RequestedDevices = () => {
                                             fontWeight: "500",
                                         }}
                                     >
-                                        {(page) * limit + index + 1}
+                                        {(page - 1) * limit + index + 1}
                                     </Typography>
                                 </TableCell>
-
-                                <TableCell align="center">
-                                    <Typography
-                                        sx={{
-                                            fontSize: "15px",
-                                            fontWeight: "500",
-                                            cursor: 'pointer'
-                                        }}
-                                    >
-                                        <RemoveRedEyeIcon />
-                                    </Typography>
-                                </TableCell>
-
-                                <TableCell align="center">
-                                    <Button disabled={!(product.status === 'submitted')} variant="outlined" color='error' onClick={() => handleReject(product.id)}>
-                                        Reject
-                                    </Button>
-                                </TableCell>
-                                <TableCell align="center">
-                                    <Button disabled={!(product.status === 'submitted')} variant="outlined" color='warning' onClick={() => handleHold(product.id)}>
-                                        Hold
-                                    </Button>
-                                </TableCell>
-                                <TableCell align="center">
-                                    <Button disabled={!(product.status === 'submitted')} variant="outlined" color='success' onClick={() => handleApprove(product.id)}>
-                                        Approve
-                                    </Button>
+                                <TableCell align="center" sx={{textTransform: 'capitalize', fontWeight: 'bold', color: product.status === 'approved' ? 'green' : product.status === 'hold' ? 'brown':'red'}}>
+                                    {product.status === 'submitted' ? (
+                                        <>
+                                            <Stack direction="row" spacing={2}>
+                                                <Button variant="contained" onClick={() => updateStatus(product._id, 'approved')}>Approve</Button>
+                                                <Button variant="contained" color='warning' onClick={() => updateStatus(product._id, 'hold')}>
+                                                    Hold
+                                                </Button>
+                                                <Button variant="contained" color='error' onClick={() => updateStatus(product._id, 'rejected')}>
+                                                    Reject
+                                                </Button>
+                                            </Stack>
+                                        </>
+                                    ) : (
+                                        product.status
+                                    )}
                                 </TableCell>
                                 <TableCell>
                                     <Box
@@ -356,21 +350,22 @@ const RequestedDevices = () => {
                             </TableRow>
                         ))}
                     </TableBody>
-                    <TableFooter>
-                        <TableRow>
-                            <TablePagination
-                                rowsPerPageOptions={[5, 10, 25, { label: 'All', value: -1 }]}
-                                rowsPerPage={rowsPerPage}
-                                colSpan={3}
-                                count={total}
-                                page={page}
-                                onPageChange={handleChangePage}
-                                ActionsComponent={TablePaginationActions}
-                            />
-                        </TableRow>
-                    </TableFooter>
+                    {products?.length > 0 && (
+                        <TableFooter>
+                            <TableRow>
+                                <TablePagination
+                                    rowsPerPageOptions={[5, 10, 25, { label: 'All', value: -1 }]}
+                                    rowsPerPage={rowsPerPage}
+                                    colSpan={3}
+                                    count={total}
+                                    page={page - 1}
+                                    onPageChange={handleChangePage}
+                                    ActionsComponent={TablePaginationActions}
+                                />
+                            </TableRow>
+                        </TableFooter>
+                    )}
                 </Table>
-
                 {products?.length === 0 && (
                     <Typography sx={{ textAlign: 'center', fontWeight: 'bold', color: 'brown' }}>
                         No Records Found

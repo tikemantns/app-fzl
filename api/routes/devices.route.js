@@ -38,7 +38,10 @@ router.get('/list', async (req, res) => {
             } else {
                 devices = await Device.find({
                     userId: req.query.userId
-                }).skip(skip).limit(limit)
+                })
+                    .skip(page)
+                    .limit(limit)
+                    .lean()
                 count = await Device.countDocuments({
                     userId: req.query.userId
                 });
@@ -54,6 +57,29 @@ router.get('/list', async (req, res) => {
         return res.status(500).json({ message: 'Internal Server Error' })
     }
 })
+
+router.patch('/update-status', async (req, res) => {
+    try {
+        const { deviceId, status } = req.body;
+
+        if (!deviceId || !status) {
+            return res.status(400).json({ message: 'Device ID and status are required' });
+        }
+
+        const device = await Device.findById(deviceId);
+        if (!device) {
+            return res.status(404).json({ message: 'Device not found' });
+        }
+
+        await Device.findByIdAndUpdate(deviceId, { status });
+
+        return res.status(200).json({ message: 'Status updated successfully' });
+    } catch (error) {
+        console.error(error);
+        return res.status(500).json({ message: 'Internal Server Error' });
+    }
+});
+
 
 
 module.exports = router
