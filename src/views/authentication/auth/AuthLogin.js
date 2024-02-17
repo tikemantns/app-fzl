@@ -18,7 +18,7 @@ const AuthLogin = () => {
     const [password, setPassword] = useState('');
 
     const handleLogin = () => {
-        console.log(email, password, 'userdetails +++')
+        console.log(email, password, 'userdetails +++');
         localStorage.setItem('userEmail', email);
         localStorage.setItem('isLoggedIn', true);
 
