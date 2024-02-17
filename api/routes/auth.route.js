@@ -23,8 +23,16 @@ router.post('/login', async (req, res) => {
         if (!isPasswordValid) {
             return res.status(401).json({ message: 'Invalid password' })
         }
- 
-        return res.status(200).json({ message: 'Login successful', user })
+
+        const userDetails = {
+            _id: user._id,
+            nameL: user.name,
+            email: user.email,
+            phone: user.phone,
+            isAdmin: user.isAdmin,
+            address: user.address
+        }
+        return res.status(200).json({ message: 'Login successful', user: userDetails })
     } catch (error) {
         console.error(error)
         return res.status(500).json({ message: 'Internal Server Error' })

@@ -10,12 +10,18 @@ import {
   ListItemIcon,
   ListItemText
 } from '@mui/material';
+import { useSelector, useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 
 import { IconListCheck, IconMail, IconUser } from '@tabler/icons';
+import { logout } from 'src/slices/persistentSlice';
 
 import ProfileImg from 'src/assets/images/profile/user-1.jpg';
 
 const Profile = () => {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
   const [anchorEl2, setAnchorEl2] = useState(null);
   const handleClick2 = (event) => {
     setAnchorEl2(event.currentTarget);
@@ -23,6 +29,11 @@ const Profile = () => {
   const handleClose2 = () => {
     setAnchorEl2(null);
   };
+
+  const logoutUser = () => {
+    dispatch(logout())
+    navigate('/auth/login');
+  }
 
   return (
     <Box>
@@ -74,14 +85,8 @@ const Profile = () => {
           </ListItemIcon>
           <ListItemText>My Account</ListItemText>
         </MenuItem>
-        <MenuItem>
-          <ListItemIcon>
-            <IconListCheck width={20} />
-          </ListItemIcon>
-          <ListItemText>My Tasks</ListItemText>
-        </MenuItem>
         <Box mt={1} py={1} px={2}>
-          <Button to="/auth/login" variant="outlined" color="primary" component={Link} fullWidth>
+          <Button onClick={logoutUser} variant="outlined" color="primary" fullWidth>
             Logout
           </Button>
         </Box>
