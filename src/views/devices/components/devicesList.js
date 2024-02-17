@@ -18,13 +18,17 @@ import { useSelector } from 'react-redux';
 
 const RequestedDevices = () => {
     const [products, setProducts] = useState([])
+    const [page, setPage] = useState(1)
+    const [limit, setLimit] = useState(20)
 
     const userDetails = useSelector((state) => state.persistentSlice.user)
-    
+
     const getDevices = async () => {
         try {
             const response = await axios.get(`${backendApp.url}${apis.devices}`, {
                 params: {
+                    page,
+                    limit,
                     userId: userDetails._id
                 }
             });
@@ -160,7 +164,7 @@ const RequestedDevices = () => {
                         </TableRow>
                     </TableHead>
                     <TableBody>
-                        {products?.map((product, index) => (
+                        {products?.length > 0 && products?.map((product, index) => (
                             <TableRow key={product.deviceName}>
                                 <TableCell>
                                     <Typography
@@ -245,12 +249,12 @@ const RequestedDevices = () => {
                                 </TableCell>
                                 <TableCell>
                                     <Typography color="textSecondary" variant="subtitle2" fontWeight={400}>
-                                        {product.deviceBoxIncluded ? 'Yes':'No'}
+                                        {product.deviceBoxIncluded ? 'Yes' : 'No'}
                                     </Typography>
                                 </TableCell>
                                 <TableCell>
                                     <Typography color="textSecondary" variant="subtitle2" fontWeight={400}>
-                                        {product.deviceHasIssue ? 'Yes':'No'}
+                                        {product.deviceHasIssue ? 'Yes' : 'No'}
                                     </Typography>
                                 </TableCell>
                                 <TableCell>
@@ -275,6 +279,11 @@ const RequestedDevices = () => {
                         ))}
                     </TableBody>
                 </Table>
+                {products?.length === 0 && (
+                    <Typography sx={{ textAlign: 'center', fontWeight: 'bold', color: 'brown' }}>
+                        No Records Found
+                    </Typography>
+                )}
             </Box>
         </DashboardCard>
     );
