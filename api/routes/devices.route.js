@@ -39,7 +39,7 @@ router.get('/list', async (req, res) => {
                 devices = await Device.find({
                     userId: req.query.userId
                 })
-                    .skip(page)
+                    .skip(skip)
                     .limit(limit)
                     .lean()
                 count = await Device.countDocuments({
