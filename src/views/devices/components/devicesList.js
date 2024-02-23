@@ -106,6 +106,7 @@ const RequestedDevices = () => {
                 }
             });
             setTotal(response?.data?.total)
+            console.log(response);
             setProducts(response?.data?.devices)
         } catch (err) {
             Swal.fire({
@@ -331,19 +332,19 @@ const RequestedDevices = () => {
                                 </TableCell>
                                 <TableCell>
                                     <Typography color="textSecondary" variant="subtitle2" fontWeight={400}>
-                                        {product.issueDescription}
+                                        {product.issueDescription ? product.issueDescription : '-'}
                                     </Typography>
                                 </TableCell>
 
                                 <TableCell>
                                     <Typography color="textSecondary" variant="subtitle2" fontWeight={400}>
-                                        {product.isInWarranty}
+                                        {product.isInWarranty ? 'Yes' : 'No'}
                                     </Typography>
                                 </TableCell>
 
                                 <TableCell>
                                     <Typography color="textSecondary" variant="subtitle2" fontWeight={400}>
-                                        {product.warrantyValidity}
+                                        {product.warrantyValidity ? product.warrantyValidity : '-'}
                                     </Typography>
                                 </TableCell>
 
