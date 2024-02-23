@@ -9,5 +9,7 @@ export const auth = {
 
 export const apis = {
     users: 'users/list',
-    devices: 'device/list'
+    devices: 'device/list',
+    updateStatus: 'device/update-status',
+    deleteUser: 'users/delete-user'
 }

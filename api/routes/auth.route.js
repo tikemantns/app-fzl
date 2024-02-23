@@ -40,23 +40,14 @@ router.post('/login', async (req, res) => {
 })
 
 router.post('/register', async (req, res) => {
-    const { name, email, password, phone, address, adharNumber, alternateContact } = req.body;
 
     try {
-        const existingUser = await User.findOne({ email });
+        const existingUser = await User.findOne({ email: req?.body?.email });
         if (existingUser) {
             return res.status(400).json({ message: 'Email is already in use' });
         }
 
-        const newUser = new User({
-            name,
-            email,
-            password,
-            phone,
-            address,
-            adharNumber,
-            alternateContact
-        });
+        const newUser = new User(req?.body);
 
         await newUser.save();
 
