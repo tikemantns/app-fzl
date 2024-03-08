@@ -4,7 +4,12 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "nodemon index.js",
+    "start:dev": "nodemon index.js",
+    "start:nonprod": "nodemon index.js",
+    "start:prod": "nodemon index.js",
+    "test": "jest",
+    "lint": "eslint --fix --ext .js"
   },
   "author": "",
   "license": "ISC",
