@@ -1,5 +1,5 @@
 export const backendApp = {
-    url: 'http://localhost:3001/api/v1/'
+    url: 'https://itechservices.onrender.com/api/v1/'
 }
 export const auth = {
     login: 'auth/login',
@@ -11,5 +11,6 @@ export const apis = {
     users: 'users/list',
     devices: 'device/list',
     updateStatus: 'device/update-status',
-    deleteUser: 'users/delete-user'
+    deleteUser: 'users/delete-user',
+    submitDeviceDetails: 'device/submit-device-details'
 }
