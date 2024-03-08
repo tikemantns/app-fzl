@@ -106,7 +106,7 @@ const SamplePage = () => {
           headers: {
             'Content-Type': 'application/json',
           },
-          body: JSON.stringify({ ...inputFields, userId: userDetails._id }),
+          body: JSON.stringify({ ...inputFields, userId: userDetails._id, status: 'submitted' }),
         });
 
         if (!response.ok) {
