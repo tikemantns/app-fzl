@@ -18,13 +18,21 @@ router.post('/login', async (req, res) => {
             return res.status(401).json({ message: 'Invalid email' })
         }
 
-        const isPasswordValid = await user.comparePassword(password)
+        const isPasswordValid = await User.findOne({ password })
 
         if (!isPasswordValid) {
             return res.status(401).json({ message: 'Invalid password' })
         }
- 
-        return res.status(200).json({ message: 'Login successful', user })
+
+        const userDetails = {
+            _id: user._id,
+            nameL: user.name,
+            email: user.email,
+            phone: user.phone,
+            isAdmin: user.isAdmin,
+            address: user.address
+        }
+        return res.status(200).json({ message: 'Login successful', user: userDetails })
     } catch (error) {
         console.error(error)
         return res.status(500).json({ message: 'Internal Server Error' })
@@ -32,26 +40,14 @@ router.post('/login', async (req, res) => {
 })
 
 router.post('/register', async (req, res) => {
-    const { name, email, password, phone, address, adharNumber, alternateContact } = req.body;
 
     try {
-        const existingUser = await User.findOne({ email });
+        const existingUser = await User.findOne({ email: req?.body?.email });
         if (existingUser) {
             return res.status(400).json({ message: 'Email is already in use' });
         }
 
-        const salt = await bcrypt.genSalt(10);
-        const hashedPassword = await bcrypt.hash(password, salt);
-
-        const newUser = new User({
-            name,
-            email,
-            password: hashedPassword,
-            phone,
-            address,
-            adharNumber,
-            alternateContact
-        });
+        const newUser = new User(req?.body);
 
         await newUser.save();
 

@@ -21,6 +21,10 @@ const deviceSchema = new mongoose.Schema({
         type: Boolean,
         required: true,
     },
+    devicePrice: {
+        type: String,
+        required: true
+    },
     deviceHasIssue: {
         type: Boolean,
         required: true,
@@ -40,6 +44,10 @@ const deviceSchema = new mongoose.Schema({
     },
     holdOrRejectionComment: {
         type: String
+    },
+    userId: {
+        type: String,
+        required: true
     },
     updatedBy: {
         type: String

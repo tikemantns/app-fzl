@@ -9,25 +9,42 @@ import {
     Stack,
     Checkbox
 } from '@mui/material';
+import axios from 'axios'
+import Swal from 'sweetalert2'
+import { useSelector, useDispatch } from 'react-redux';
 
 import CustomTextField from '../../../components/forms/theme-elements/CustomTextField';
+import {backendApp, auth} from '../../../configs/apiConfig'
+import { updateUserDetails } from 'src/slices/persistentSlice';
 
 const AuthLogin = () => {
+    const dispatch = useDispatch();
+
     const navigate = useNavigate();
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
 
-    const handleLogin = () => {
-        console.log(email, password, 'userdetails +++')
-        localStorage.setItem('userEmail', email);
-        localStorage.setItem('isLoggedIn', true);
-
-        navigate('/devices');
+    const handleLogin = async () => {
+        try {
+            const response = await axios.post(`${backendApp.url}${auth.login}`, {
+                email: email,
+                password: password
+            })
+            if(response) {
+                dispatch(updateUserDetails(response?.data?.user))
+                navigate('/devices');
+            }
+        } catch (err) {
+            Swal.fire({
+                title: `${err?.response?.data?.message}`,
+                icon: "error"
+            });
+        }
     };
 
     return (
         <>
-            <Typography align='center'  variant="h6" mb={1}>
+            <Typography align='center' variant="h6" mb={1}>
                 iTech Service
             </Typography>
 
