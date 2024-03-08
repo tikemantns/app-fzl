@@ -24,6 +24,7 @@ import PageContainer from 'src/components/container/PageContainer';
 import DashboardCard from '../../components/shared/DashboardCard';
 import { useSelector, useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router';
+import { apis, backendApp } from 'src/configs/apiConfig';
 const Item = styled(Paper)(({ theme }) => ({
   backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
   ...theme.typography.body2,
@@ -99,7 +100,7 @@ const SamplePage = () => {
       // All validations passed, submit the form
       try {
         // API endpoint
-        const url = "http://localhost:3001/api/v1/device/submit-device-details";
+        const url = `${backendApp.url}${apis.submitDeviceDetails}`
         const response = await fetch(url, {
           method: 'POST',
           headers: {

@@ -11,5 +11,6 @@ export const apis = {
     users: 'users/list',
     devices: 'device/list',
     updateStatus: 'device/update-status',
-    deleteUser: 'users/delete-user'
+    deleteUser: 'users/delete-user',
+    submitDeviceDetails: 'device/submit-device-details'
 }
