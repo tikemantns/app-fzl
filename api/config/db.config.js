@@ -4,10 +4,7 @@ const mongoose = require('mongoose');
 // Function to connect to the database
 const connectToDatabase = async () => {
     try {
-        await mongoose.connect('mongodb://localhost:27017/itechservice', {
-            useNewUrlParser: true,
-            useUnifiedTopology: true,
-        });
+        await mongoose.connect('mongodb+srv://wallet:wallet@cluster0.geon5tl.mongodb.net/wallets?retryWrites=true&w=majority', {});
 
         console.log('MongoDB connected successfully');
     } catch (error) {
