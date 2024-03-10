@@ -56,6 +56,7 @@ const SamplePage = () => {
     { label: "IWatch" }
   ];
 
+
   // Hooks
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -207,11 +208,21 @@ const SamplePage = () => {
                   helperText={errors.selectedDevice}
                 >
                   <MenuItem value="">None</MenuItem>
-                  <MenuItem value="iphone6">Iphone 6</MenuItem>
-                  <MenuItem value="iphone10pro">Iphone 10 pro</MenuItem>
-                  <MenuItem value="iphone12">Iphone 12</MenuItem>
-                  <MenuItem value="ipad">IPad</MenuItem>
-                  <MenuItem value="iwatch">IWatch</MenuItem>
+                  <MenuItem value="iphone">iPhone</MenuItem>
+                  <MenuItem value="ipad">iPad</MenuItem>
+                  <MenuItem value="macBook">MacBook</MenuItem>
+                  <MenuItem value="iwatch">iWatch</MenuItem>
+                  <MenuItem value="iMac">iMac</MenuItem>
+                  <MenuItem value="macmini">Mac Mini</MenuItem>
+                  <MenuItem value="macpro">Mac Pro</MenuItem>
+                  <MenuItem value="appleTV">Apple TV</MenuItem>
+                  <MenuItem value="airPods">AirPods</MenuItem>
+                  <MenuItem value="homePod">HomePod</MenuItem>
+                  <MenuItem value="iPod">iPod</MenuItem>
+                  <MenuItem value="applePencil">Apple Pencil</MenuItem>
+                  <MenuItem value="magicKeyboard">Magic Keyboard</MenuItem>
+                  <MenuItem value="magicMouse">Magic Mouse</MenuItem>
+                  <MenuItem value="magicTrackpad">Magic Trackpad</MenuItem>
                 </TextField>
               </FormControl>
             </Grid>
@@ -232,11 +243,81 @@ const SamplePage = () => {
                   helperText={errors.selectedModel}
                 >
                   <MenuItem value="">None</MenuItem>
-                  <MenuItem value="iphone6pro">Iphone 6 Pro</MenuItem>
-                  <MenuItem value="iphone10pro345">Iphone 10 Pro 345</MenuItem>
-                  <MenuItem value="iphone12max">Iphone 12 max</MenuItem>
-                  <MenuItem value="A2013ipadpro">A2013 on the iPad Pro Wi-Fi + Cellular</MenuItem>
-                  <MenuItem value="A2435iwatchpro12-inch">A2435 on iwatch Pro 12-inch</MenuItem>
+                  <MenuItem value="iPhone13ProMax">iPhone 13 Pro Max</MenuItem>
+                  <MenuItem value="iPhone13Pro">iPhone 13 Pro</MenuItem>
+                  <MenuItem value="iPhone13">iPhone 13</MenuItem>
+                  <MenuItem value="iPhone13mini">iPhone 13 mini</MenuItem>
+                  <MenuItem value="iPhoneSE2ndgeneration">iPhone SE (2nd generation)</MenuItem>
+                  <MenuItem value="iPhone12ProMax">iPhone 12 Pro Max</MenuItem>
+                  <MenuItem value="iPhone12Pro">iPhone 12 Pro</MenuItem>
+                  <MenuItem value="iPhone12">iPhone 12</MenuItem>
+                  <MenuItem value="iPhone12mini">iPhone 12 mini</MenuItem>
+                  <MenuItem value="iPhoneSE">iPhone SE</MenuItem>
+                  <MenuItem value="iPhone11ProMax">iPhone 11 Pro Max</MenuItem>
+                  <MenuItem value="iPhone11Pro">iPhone 11 Pro</MenuItem>
+                  <MenuItem value="iPhone11">iPhone 11</MenuItem>
+                  <MenuItem value="iPhoneXR">iPhone XR</MenuItem>
+                  <MenuItem value="iPhoneXSMax">iPhone XS Max</MenuItem>
+                  <MenuItem value="iPhoneXS">iPhone XS</MenuItem>
+                  <MenuItem value="iPhoneX">iPhone X</MenuItem>
+                  <MenuItem value="iPhone8Plus">iPhone 8 Plus</MenuItem>
+                  <MenuItem value="iPhone8">iPhone 8</MenuItem>
+                  <MenuItem value="iPhone7Plus">iPhone 7 Plus</MenuItem>
+                  <MenuItem value="iPhone7">iPhone 7</MenuItem>
+                  <MenuItem value="iPhoneSE1stgeneration">iPhone SE (1st generation)</MenuItem>
+                  <MenuItem value="iPhone6sPlus">iPhone 6s Plus</MenuItem>
+                  <MenuItem value="iPhone6s">iPhone 6s</MenuItem>
+                  <MenuItem value="iPhone6Plus">iPhone 6 Plus</MenuItem>
+                  <MenuItem value="iPhone6">iPhone 6</MenuItem>
+                  <MenuItem value="iPhone5s">iPhone 5s</MenuItem>
+                  <MenuItem value="iPhone5c">iPhone 5c</MenuItem>
+                  <MenuItem value="iPhone5">iPhone 5</MenuItem>
+                  <MenuItem value="iPhone4s">iPhone 4s</MenuItem>
+                  <MenuItem value="iPhone4">iPhone 4</MenuItem>
+                  <MenuItem value="iPadPro12.9-inch5thgeneration">iPad Pro (12.9-inch) (5th generation)</MenuItem>
+                  <MenuItem value="iPadPro11-inch3rdgeneration">iPad Pro (11-inch) (3rd generation)</MenuItem>
+                  <MenuItem value="iPadPro12.9-inch4thgeneration">iPad Pro (12.9-inch) (4th generation)</MenuItem>
+                  <MenuItem value="iPadPro11-inch2ndgeneration">iPad Pro (11-inch) (2nd generation)</MenuItem>
+                  <MenuItem value="iPadPro12.9-inch3rdgeneration">iPad Pro (12.9-inch) (3rd generation)</MenuItem>
+                  <MenuItem value="iPadPro11-inch1stgeneration">iPad Pro (11-inch) (1st generation)</MenuItem>
+                  <MenuItem value="iPadPro12.9-inch2ndgeneration">iPad Pro (12.9-inch) (2nd generation)</MenuItem>
+                  <MenuItem value="iPadPro12.9-inch1stgeneration">iPad Pro (12.9-inch) (1st generation)</MenuItem>
+                  <MenuItem value="iPadAir4thgeneration">iPad Air (4th generation)</MenuItem>
+                  <MenuItem value="iPadAir3rdgeneration">iPad Air (3rd generation)</MenuItem>
+                  <MenuItem value="iPadAir2ndgeneration">iPad Air (2nd generation)</MenuItem>
+                  <MenuItem value="iPadAir">iPad Air</MenuItem>
+                  <MenuItem value="iPad9thgeneration">iPad (9th generation)</MenuItem>
+                  <MenuItem value="iPad8thgeneration">iPad (8th generation)</MenuItem>
+                  <MenuItem value="iPad7thgeneration">iPad (7th generation)</MenuItem>
+                  <MenuItem value="iPad6thgeneration">iPad (6th generation)</MenuItem>
+                  <MenuItem value="iPad5thgeneration">iPad (5th generation)</MenuItem>
+                  <MenuItem value="iPadmini6thgeneration">iPad mini (6th generation)</MenuItem>
+                  <MenuItem value="iPadmini5thgeneration">iPad mini (5th generation)</MenuItem>
+                  <MenuItem value="iPadmini4">iPad mini 4</MenuItem>
+                  <MenuItem value="iPadmini3">iPad mini 3</MenuItem>
+                  <MenuItem value="iPadmini2">iPad mini 2</MenuItem>
+                  <MenuItem value="iPadmini">iPad mini</MenuItem>
+                  <MenuItem value="MacBookAirM12020">MacBook Air (M1, 2020)</MenuItem>
+                  <MenuItem value="MacBookAirRetina2020">MacBook Air (Retina, 2020)</MenuItem>
+                  <MenuItem value="MacBookAir13-inch2017">MacBook Air (13-inch, 2017)</MenuItem>
+                  <MenuItem value="MacBookAir11-inch2015">MacBook Air (11-inch, 2015)</MenuItem>
+                  <MenuItem value="MacBookPro14-inch2021">MacBook Pro (14-inch, 2021)</MenuItem>
+                  <MenuItem value="MacBookPro16-inch2021">MacBook Pro (16-inch, 2021)</MenuItem>
+                  <MenuItem value="MacBookPro13-inchM12020">MacBook Pro (13-inch, M1, 2020)</MenuItem>
+                  <MenuItem value="MacBookPro13-inch2020">MacBook Pro (13-inch, 2020)</MenuItem>
+                  <MenuItem value="MacBookPro13-inch2019">MacBook Pro (13-inch, 2019)</MenuItem>
+                  <MenuItem value="MacBookPro13-inch2017">MacBook Pro (13-inch, 2017)</MenuItem>
+                  <MenuItem value="MacBookPro15-inch2019">MacBook Pro (15-inch, 2019)</MenuItem>
+                  <MenuItem value="MacBookPro15-inch2018">MacBook Pro (15-inch, 2018)</MenuItem>
+                  <MenuItem value="MacBookPro15-inch2017">MacBook Pro (15-inch, 2017)</MenuItem>
+                  <MenuItem value="MacBookProRetina15-inchMid2015">MacBook Pro (Retina, 15-inch, Mid 2015)</MenuItem>
+                  <MenuItem value="MacBookProRetina13-inchEarly2015">MacBook Pro (Retina, 13-inch, Early 2015)</MenuItem>
+                  <MenuItem value="MacBookProRetina13-inchEarly2013">MacBook Pro (Retina, 13-inch, Early 2013)</MenuItem>
+                  <MenuItem value="MacBookRetina12-inchEarly2016">MacBook (Retina, 12-inch, Early 2016)</MenuItem>
+                  <MenuItem value="MacBookRetina12-inchEarly2015">MacBook (Retina, 12-inch, Early 2015)</MenuItem>
+                  <MenuItem value="iMac24-inchM12021">iMac (24-inch, M1, 2021)</MenuItem>
+                  <MenuItem value="iMac27-inch2020">iMac (27-inch, 2020)</MenuItem>
+                  <MenuItem value="iMac21.5-inch2019">iMac (21.5-inch, 2019)</MenuItem>
                 </TextField>
               </FormControl>
             </Grid>
@@ -252,6 +333,20 @@ const SamplePage = () => {
                 onChange={handleTextChange}
                 error={!!errors.deviceColor}
                 helperText={errors.deviceColor}
+              />
+            </Grid>
+
+            <Grid item xs={12}>
+              <TextField
+                fullWidth
+                required
+                id="outlined-required"
+                name="deviceStorage"
+                label="Device Storage"
+                value={inputFields?.deviceStorage}
+                onChange={handleTextChange}
+                error={!!errors.deviceStorage}
+                helperText={errors.deviceStorage}
               />
             </Grid>
 
@@ -286,7 +381,7 @@ const SamplePage = () => {
 
             <Grid item xs={12}>
               <FormControl>
-                <FormLabel id="demo-row-radio-buttons-group-label">Device Box Included</FormLabel>
+                <FormLabel id="demo-row-radio-buttons-group-label">Device Box & Charger Available ?</FormLabel>
                 <RadioGroup
                   row
                   aria-labelledby="demo-row-radio-buttons-group-label"
