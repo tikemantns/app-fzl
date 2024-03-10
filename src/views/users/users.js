@@ -193,7 +193,7 @@ const Users = () => {
                                     </Typography>
                                 </TableCell>
                                 <TableCell align="right">
-                                    {(loggedInUser.isAdmin && loggedInUser._id !== user._id) && (
+                                    {(loggedInUser.isAdmin && !user.isAdmin && loggedInUser._id !== user._id) && (
                                         <Button variant="outlined" color='error' onClick={() => deleteUser(user._id)}>
                                             Delete
                                         </Button>
