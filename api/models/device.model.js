@@ -13,6 +13,10 @@ const deviceSchema = new mongoose.Schema({
         type: String,
         required: true,
     },
+    storage: {
+        type: String,
+        required: true,
+    },
     serialOrImei: {
         type: String,
         required: true,

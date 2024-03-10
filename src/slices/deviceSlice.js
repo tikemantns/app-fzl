@@ -9,6 +9,7 @@ const initialState = {
     deviceHasIssue: '',
     isInWarranty: '',
     deviceColor: '',
+    deviceStorage: '',
     devicePrice: '',
     serialOrImei: '',
     issueDescription: '',

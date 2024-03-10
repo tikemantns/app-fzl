@@ -311,7 +311,7 @@ const RequestedDevices = () => {
 
                                 <TableCell>
                                     <Typography color="textSecondary" variant="subtitle2" fontWeight={400}>
-                                        {product.storage}
+                                        {product.deviceStorage}
                                     </Typography>
                                 </TableCell>
 
